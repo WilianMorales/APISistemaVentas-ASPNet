@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using SistemaVenta.DAL.DBContext;
+using SistemaVenta.DAL.Repositorios.Contrato;
+using SistemaVenta.DAL.Repositorios;
 
 namespace SistemaVenta.IOC
 {
@@ -15,6 +18,11 @@ namespace SistemaVenta.IOC
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+
+            // Registrar implementaciones para la interfaz IGenericRepository<> y IVentaRepository.
+            // Esto permite que estas implementaciones se resuelvan automáticamente cuando se solicitan.
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IVentaRepository, VentaRepository>();
         }
     }
 }
