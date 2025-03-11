@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SistemaVenta.DAL.DBContext;
 using SistemaVenta.DAL.Repositorios.Contrato;
 using SistemaVenta.DAL.Repositorios;
+using SistemaVenta.Utility;
 
 namespace SistemaVenta.IOC
 {
@@ -23,6 +24,9 @@ namespace SistemaVenta.IOC
             // Esto permite que estas implementaciones se resuelvan automáticamente cuando se solicitan.
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IVentaRepository, VentaRepository>();
+
+            // Configurar AutoMapper usando el perfil definido en AutoMapperProfile.
+            services.AddAutoMapper(typeof(AutoMapperProfile));
         }
     }
 }
