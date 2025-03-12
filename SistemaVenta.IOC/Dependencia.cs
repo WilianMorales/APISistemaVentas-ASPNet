@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using SistemaVenta.BLL.Servicios.Contrato;
+using SistemaVenta.BLL.Servicios;
 using SistemaVenta.DAL.DBContext;
 using SistemaVenta.DAL.Repositorios.Contrato;
 using SistemaVenta.DAL.Repositorios;
@@ -27,6 +29,16 @@ namespace SistemaVenta.IOC
 
             // Configurar AutoMapper usando el perfil definido en AutoMapperProfile.
             services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            // Registro de servicios e interfaces mediante inyección de dependencias.
+            services.AddScoped<IRolService, RolService>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<ICategoriaService, CategoriaService>();
+            services.AddScoped<IProductoService, ProductoService>();
+            services.AddScoped<IVentaService, VentaService>();
+            services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<IMenuService, MenuService>();
+
         }
     }
 }
