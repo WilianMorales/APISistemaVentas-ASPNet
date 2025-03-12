@@ -9,7 +9,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Otros Servicios
 builder.Services.InyectarDependencias(builder.Configuration);
+
+// Configuración de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin", app =>
+    {
+        app.WithOrigins("http://localhost:4200") // Reemplaza con el dominio desde el que permitirás acceso
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -19,6 +31,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Uso de CORS
+app.UseCors("AllowSpecificOrigin");
+
+// Redirige automáticamente de HTTP a HTTPS
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
