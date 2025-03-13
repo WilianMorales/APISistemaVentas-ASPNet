@@ -19,8 +19,8 @@ namespace SistemaVenta.API.Controllers
         }
 
         [HttpPost]
-        [Route("guardar")]
-        public async Task<IActionResult> Guardar([FromBody] VentaDTO venta)
+        [Route("registrar")]
+        public async Task<IActionResult> Registrar([FromBody] VentaDTO venta)
         {
             var rsp = new Response<VentaDTO>();
 
