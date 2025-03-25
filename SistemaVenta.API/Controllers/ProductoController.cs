@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaVenta.BLL.Servicios.Contrato;
 using SistemaVenta.DTO;
 using SistemaVenta.API.Utilidad;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaVenta.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductoController : ControllerBase
     {
         private readonly IProductoService _productoService;
@@ -41,6 +43,7 @@ namespace SistemaVenta.API.Controllers
 
         [HttpPost]
         [Route("guardar")]
+        [Authorize(Roles = "Administrador, Supervisor")]
         public async Task<IActionResult> Guardar([FromBody] ProductoDTO producto)
         {
             var rsp = new Response<ProductoDTO>();
@@ -62,6 +65,7 @@ namespace SistemaVenta.API.Controllers
 
         [HttpPut]
         [Route("editar")]
+        [Authorize(Roles = "Administrador, Supervisor")]
         public async Task<IActionResult> Editar([FromBody] ProductoDTO producto)
         {
             var rsp = new Response<bool>();
@@ -83,6 +87,7 @@ namespace SistemaVenta.API.Controllers
 
         [HttpDelete]
         [Route("eliminar/{id:int}")]
+        [Authorize(Roles = "Administrador, Supervisor")]
         public async Task<IActionResult> Eliminar(int id)
         {
             var rsp = new Response<bool>();

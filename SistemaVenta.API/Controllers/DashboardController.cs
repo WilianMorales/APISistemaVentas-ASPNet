@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaVenta.BLL.Servicios.Contrato;
 using SistemaVenta.DTO;
 using SistemaVenta.API.Utilidad;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaVenta.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DashboardController : ControllerBase
     {
         private readonly IDashboardService _dashboardService;
@@ -20,6 +22,7 @@ namespace SistemaVenta.API.Controllers
 
         [HttpGet]
         [Route("resumen")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Resumen()
         {
             var rsp = new Response<DashboradDTO>();

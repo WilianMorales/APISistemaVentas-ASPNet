@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaVenta.BLL.Servicios.Contrato;
 using SistemaVenta.DTO;
 using SistemaVenta.API.Utilidad;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaVenta.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MenuController : ControllerBase
     {
         private readonly IMenuService _menuService;

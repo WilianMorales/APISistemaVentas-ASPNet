@@ -8,6 +8,9 @@ using SistemaVenta.DAL.DBContext;
 using SistemaVenta.DAL.Repositorios.Contrato;
 using SistemaVenta.DAL.Repositorios;
 using SistemaVenta.Utility;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SistemaVenta.IOC
 {
@@ -39,6 +42,29 @@ namespace SistemaVenta.IOC
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<IMenuService, MenuService>();
 
+            // Configuración de autenticación JWT
+            var jwtSettings = configuration.GetSection("JwtSettings");
+            var key = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtSettings["Issuer"],
+                        ValidAudience = jwtSettings["Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(key) // Clave secreta
+                    };
+                });
+
+            // Registrar el generador de JWT en la inyección de dependencias
+            services.AddSingleton<JwtGenerador>();
         }
     }
 }

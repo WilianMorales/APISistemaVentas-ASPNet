@@ -35,9 +35,9 @@ if (app.Environment.IsDevelopment())
 // Uso de CORS
 app.UseCors("AllowSpecificOrigin");
 
-// Redirige automáticamente de HTTP a HTTPS
-app.UseHttpsRedirection();
+app.UseHttpsRedirection(); // Redirige automáticamente de HTTP a HTTPS
 
+app.UseAuthentication();  // Activar autenticación JWT
 app.UseAuthorization();
 
 app.MapControllers();

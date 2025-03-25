@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using SistemaVenta.BLL.Servicios.Contrato;
 using SistemaVenta.DTO;
 using SistemaVenta.API.Utilidad;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaVenta.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class VentaController : ControllerBase
     {
         private readonly IVentaService _ventaService;
@@ -20,6 +22,7 @@ namespace SistemaVenta.API.Controllers
 
         [HttpPost]
         [Route("registrar")]
+        [Authorize(Roles = "Administrador, Empleado, Supervisor")]
         public async Task<IActionResult> Registrar([FromBody] VentaDTO venta)
         {
             var rsp = new Response<VentaDTO>();
@@ -40,6 +43,7 @@ namespace SistemaVenta.API.Controllers
 
         [HttpGet]
         [Route("historial")]
+        [Authorize(Roles = "Administrador, Empleado, Supervisor")]
         public async Task<IActionResult> Historial(string buscarPor, string? numeroVenta, string? fechaInicio, string? fechaFin)
         {
             var rsp = new Response<List<VentaDTO>>();
@@ -63,6 +67,7 @@ namespace SistemaVenta.API.Controllers
 
         [HttpGet]
         [Route("reporte")]
+        [Authorize(Roles = "Administrador, Supervisor")]
         public async Task<IActionResult> Reporte(string? fechaInicio, string? fechaFin)
         {
             var rsp = new Response<List<ReporteDTO>>();

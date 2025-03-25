@@ -5,11 +5,13 @@ using SistemaVenta.BLL.Servicios.Contrato;
 using SistemaVenta.DTO;
 using SistemaVenta.API.Utilidad;
 using SistemaVenta.BLL.Servicios;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaVenta.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriaController : ControllerBase
     {
         private readonly ICategoriaService _categoriaService;
